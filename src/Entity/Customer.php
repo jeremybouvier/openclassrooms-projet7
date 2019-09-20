@@ -52,8 +52,7 @@ class Customer
     private $zipCode;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="custumers")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(type="integer")
      */
     private $user;
 
