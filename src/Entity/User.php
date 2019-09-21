@@ -31,11 +31,36 @@ class User
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Customer", mappedBy="user", orphanRemoval=true)
      */
-    private $custumers;
+    private $customers;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $company;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $address;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $city;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $zipCode;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $phone;
 
     public function __construct()
     {
-        $this->custumers = new ArrayCollection();
+        $this->customers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -70,30 +95,90 @@ class User
     /**
      * @return Collection|Customer[]
      */
-    public function getCustumers(): Collection
+    public function getCustomers(): Collection
     {
-        return $this->custumers;
+        return $this->customers;
     }
 
-    public function addCustumer(Customer $custumer): self
+    public function addCustumer(Customer $customer): self
     {
-        if (!$this->custumers->contains($custumer)) {
-            $this->custumers[] = $custumer;
-            $custumer->setUser($this);
+        if (!$this->customers->contains($customer)) {
+            $this->customers[] = $customer;
+            $customer->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeCustumer(Customer $custumer): self
+    public function removeCustomer(Customer $customer): self
     {
-        if ($this->custumers->contains($custumer)) {
-            $this->custumers->removeElement($custumer);
+        if ($this->customers->contains($customer)) {
+            $this->customers->removeElement($customer);
             // set the owning side to null (unless already changed)
-            if ($custumer->getUser() === $this) {
-                $custumer->setUser(null);
+            if ($customer->getUser() === $this) {
+                $customer->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCompany(): ?string
+    {
+        return $this->company;
+    }
+
+    public function setCompany(string $company): self
+    {
+        $this->company = $company;
+
+        return $this;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(string $address): self
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(string $city): self
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    public function getZipCode(): ?string
+    {
+        return $this->zipCode;
+    }
+
+    public function setZipCode(string $zipCode): self
+    {
+        $this->zipCode = $zipCode;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(string $phone): self
+    {
+        $this->phone = $phone;
 
         return $this;
     }
