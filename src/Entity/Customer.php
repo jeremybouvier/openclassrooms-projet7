@@ -12,6 +12,18 @@ use Doctrine\ORM\Mapping as ORM;
  *     collectionOperations={"get","post"},
  *     itemOperations={"get","delete"}
  * )
+ * @ApiFilter(OrderFilter::class, properties={"lastName":"ASC"})
+ * @ApiFilter(
+ *     SearchFilter::class,
+ *     properties={
+ *          "firstName":"ipartial",
+ *          "lastName":"ipartial",
+ *          "address":"ipartial",
+ *          "email":"iexact",
+ *          "city":"iexact",
+ *          "zipCode":"exact"
+ *      }
+ *  )
  * @UserAware(userFieldName="user_id")
  * @ORM\Entity(repositoryClass="App\Repository\CustomerRepository")
  */
