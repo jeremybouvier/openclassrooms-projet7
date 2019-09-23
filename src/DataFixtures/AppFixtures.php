@@ -14,6 +14,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class AppFixtures extends Fixture
 {
     /**
+     * @var array
+     */
+    private $users;
+    /**
      * @var UserPasswordEncoderInterface
      */
     private $encoder;
@@ -35,6 +39,7 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $this->loadUsers($manager);
+        $this->loadCustomers($manager);
         $this->loadProducts($manager);
         $manager->flush();
     }
@@ -50,23 +55,25 @@ class AppFixtures extends Fixture
             $user->setZipCode(20290+$i);
             $user->setCity('city of user'.$i);
             $user->setPhone('00.00.00.00.0'.$i);
-            $this->loadCustomers($manager, $i);
+            $this->users[] = $user;
             $manager->persist($user);
         }
     }
 
-    public function loadCustomers($manager, $user)
+    public function loadCustomers($manager)
     {
-        for ($i = 0; $i < 10; $i++) {
-            $customer = new Customer();
-            $customer->setFirstName('customer'.$i);
-            $customer->setLastName('customerLast'.$i);
-            $customer->setAddress('address of customer'.$i);
-            $customer->setZipCode(20290+$i);
-            $customer->setCity('city of customer'.$i);
-            $customer->setEmail('customer'.$i.'@gmail.com');
-            $customer->setUser($user);
-            $manager->persist($customer);
+        foreach ($this->users as $user) {
+            for ($i = 0; $i < 10; $i++) {
+                $customer = new Customer();
+                $customer->setFirstName('customer'.$i);
+                $customer->setLastName('customerLast'.$i);
+                $customer->setAddress('address of customer'.$i);
+                $customer->setZipCode(20290+$i);
+                $customer->setCity('city of customer'.$i);
+                $customer->setEmail('customer'.$i.'@gmail.com');
+                $customer->setUser($user);
+                $manager->persist($customer);
+            }
         }
     }
 
