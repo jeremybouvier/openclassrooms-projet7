@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -13,8 +14,12 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ApiResource(
  *     collectionOperations={"get"},
- *     itemOperations={"get"}
+ *     itemOperations={"get"},
+ *     attributes={"pagination_client_items_per_page"=true, "maximum_items_per_page"=20}
  * )
+ * @ApiFilter(OrderFilter::class, properties={"price":"ASC"})
+ * @ApiFilter(RangeFilter::class, properties={"price"})
+ * @ApiFilter(SearchFilter::class, properties={"name":"ipartial", "brand":"ipartial"})
  * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
  */
 class Product

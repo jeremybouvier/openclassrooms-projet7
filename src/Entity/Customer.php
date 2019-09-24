@@ -1,19 +1,30 @@
 <?php
-
 namespace App\Entity;
-
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiFilter;
+use App\Annotation\UserAware;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
-
 /**
  * @ApiResource(
  *     collectionOperations={"get","post"},
  *     itemOperations={"get","delete"}
  * )
+ * @ApiFilter(OrderFilter::class, properties={"lastName":"ASC"})
+ * @ApiFilter(
+ *     SearchFilter::class,
+ *     properties={
+ *          "firstName":"ipartial",
+ *          "lastName":"ipartial",
+ *          "address":"ipartial",
+ *          "email":"iexact",
+ *          "city":"iexact",
+ *          "zipCode":"exact"
+ *      }
+ *  )
+ * @UserAware(userFieldName="user_id")
  * @ORM\Entity(repositoryClass="App\Repository\CustomerRepository")
  */
 class Customer
@@ -63,7 +74,8 @@ class Customer
     private $zipCode;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      * @Assert\NotBlank()
      */
     private $user;
@@ -81,7 +93,6 @@ class Customer
     public function setFirstName(string $firstName): self
     {
         $this->firstName = $firstName;
-
         return $this;
     }
 
@@ -93,7 +104,6 @@ class Customer
     public function setLastName(string $lastName): self
     {
         $this->lastName = $lastName;
-
         return $this;
     }
 
@@ -105,7 +115,6 @@ class Customer
     public function setEmail(string $email): self
     {
         $this->email = $email;
-
         return $this;
     }
 
@@ -117,7 +126,6 @@ class Customer
     public function setAddress(string $address): self
     {
         $this->address = $address;
-
         return $this;
     }
 
@@ -129,7 +137,6 @@ class Customer
     public function setCity(string $city): self
     {
         $this->city = $city;
-
         return $this;
     }
 
@@ -141,7 +148,6 @@ class Customer
     public function setZipCode(int $zipCode): self
     {
         $this->zipCode = $zipCode;
-
         return $this;
     }
 
@@ -153,7 +159,6 @@ class Customer
     public function setUser( $user): self
     {
         $this->user = $user;
-
         return $this;
     }
 }
