@@ -6,12 +6,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ApiResource
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -22,7 +22,7 @@ class User
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $LoginName;
+    private $username;
     /**
      * @ORM\Column(type="string", length=255)
      */
@@ -51,6 +51,9 @@ class User
      * @ORM\Column(type="string", length=255)
      */
     private $phone;
+
+
+
     public function __construct()
     {
         $this->customers = new ArrayCollection();
@@ -59,15 +62,7 @@ class User
     {
         return $this->id;
     }
-    public function getLoginName(): ?string
-    {
-        return $this->LoginName;
-    }
-    public function setLoginName(string $LoginName): self
-    {
-        $this->LoginName = $LoginName;
-        return $this;
-    }
+
     public function getPassword(): ?string
     {
         return $this->password;
@@ -147,5 +142,29 @@ class User
     {
         $this->phone = $phone;
         return $this;
+    }
+
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    public function setUsername(string $username): self
+    {
+        $this->username = $username;
+        return $this;
+    }
+
+    public function getSalt()
+    {
+        return null;
+    }
+
+    public function getRoles()
+    {
+        return array('ROLE_USER');
+    }
+    public function eraseCredentials()
+    {
     }
 }
