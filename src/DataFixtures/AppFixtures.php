@@ -49,7 +49,7 @@ class AppFixtures extends Fixture
         for ($i = 0; $i < 10; $i++) {
             $user = new User();
             $user->setUsername('user'.$i);
-            $user->setPassword('pass'.$i);
+            $user->setPlainPassword('pass'.$i);
             $user->setCompany('company of user'.$i);
             $user->setAddress('address of user'.$i);
             $user->setZipCode(20290+$i);

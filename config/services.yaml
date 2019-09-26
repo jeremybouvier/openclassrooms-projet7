@@ -28,3 +28,10 @@ services:
             - { name: kernel.event_listener, event: kernel.request, priority: 5 }
         # Autoconfiguration must be disabled to set a custom priority
         autoconfigure: false
+
+    #service d'encodage du mot de passe lors de la création ou de la modification d'un utilisateur
+    HashPassword_listener:
+        class: App\EventListener\HashPasswordListener
+        tags:
+            - { name: doctrine.event_subscriber, autowire: true}
+

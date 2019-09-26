@@ -19,40 +19,51 @@ class User implements UserInterface
      * @ORM\Column(type="integer")
      */
     private $id;
+
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $username;
+
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $password;
+
+    /**
+     * @var string
+     */
+    private $plainPassword;
+
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Customer", mappedBy="user", orphanRemoval=true)
      */
     private $customers;
+
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $company;
+
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $address;
+
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $city;
+
     /**
      * @ORM\Column(type="integer")
      */
     private $zipCode;
+
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $phone;
-
-
 
     public function __construct()
     {
@@ -72,6 +83,17 @@ class User implements UserInterface
         $this->password = $password;
         return $this;
     }
+
+    public function getPlainPassword(): string
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword(string $plainPassword): void
+    {
+        $this->plainPassword = $plainPassword;
+    }
+
     /**
      * @return Collection|Customer[]
      */
