@@ -31,28 +31,31 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity="App\Entity\Customer", mappedBy="user", orphanRemoval=true)
      */
     private $customers;
+
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $company;
+
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $address;
+
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $city;
+
     /**
      * @ORM\Column(type="integer")
      */
     private $zipCode;
+
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $phone;
-
-
 
     public function __construct()
     {
@@ -79,6 +82,7 @@ class User implements UserInterface
     {
         return $this->customers;
     }
+
     public function addCustumer(Customer $customer): self
     {
         if (!$this->customers->contains($customer)) {
@@ -87,6 +91,7 @@ class User implements UserInterface
         }
         return $this;
     }
+
     public function removeCustomer(Customer $customer): self
     {
         if ($this->customers->contains($customer)) {
