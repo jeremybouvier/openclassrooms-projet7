@@ -3,7 +3,7 @@
 
 namespace App\EventListener;
 
-use App\Entity\User;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -31,6 +31,7 @@ final class UserFilterConfigurator
         $filter = $this->em->getFilters()->enable('user_filter');
         $filter->setParameter('id', $user->getId());
         $filter->setAnnotationReader($this->reader);
+
     }
 
     private function getUser(): ?UserInterface

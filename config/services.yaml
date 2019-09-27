@@ -35,3 +35,9 @@ services:
         tags:
             - { name: doctrine.event_subscriber, autowire: true}
 
+    #service de récupération du client lors de la création d'un utilisateur
+    Customer_listener:
+        class: App\EventListener\CustomerListener
+        tags:
+            - { name: doctrine.event_subscriber, autowire: true}
+
