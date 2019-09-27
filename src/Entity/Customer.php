@@ -1,16 +1,22 @@
 <?php
 namespace App\Entity;
+
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use App\Annotation\UserAware;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
+
 /**
  * @ApiResource(
  *     collectionOperations={"get","post"},
- *     itemOperations={"get","delete"}
+ *     itemOperations={"get","delete"},
+ *     normalizationContext={"groups"={"read"}},
+ *     denormalizationContext={"groups"={"write"}},
+ *     attributes={"pagination_client_items_per_page"=true, "maximum_items_per_page"=20}
  * )
  * @ApiFilter(OrderFilter::class, properties={"lastName":"ASC"})
  * @ApiFilter(
@@ -39,12 +45,14 @@ class Customer
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
+     * @Groups({"read", "write"})
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
+     * @Groups({"read", "write"})
      */
     private $lastName;
 
@@ -52,30 +60,35 @@ class Customer
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
      * @Assert\Email()
+     * @Groups({"read", "write"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
+     * @Groups({"read", "write"})
      */
     private $address;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
+     * @Groups({"read", "write"})
      */
     private $city;
 
     /**
      * @ORM\Column(type="integer")
      * @Assert\NotBlank()
+     * @Groups({"read", "write"})
      */
     private $zipCode;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="customers")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @Groups({"write"})
      */
     private $user;
 

@@ -25,8 +25,7 @@ final class UserFilterConfigurator
     public function onKernelRequest(): void
     {
         if (!$user = $this->getUser()) {
-            $user = $this->em->find(User::class, 1);
-            //throw new \RuntimeException('There is no authenticated user.');
+            throw new \RuntimeException('There is no authenticated user.');
         }
 
         $filter = $this->em->getFilters()->enable('user_filter');

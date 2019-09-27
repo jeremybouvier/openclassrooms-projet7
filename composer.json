@@ -6,6 +6,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "api-platform/api-pack": "^1.2",
+        "doctrine/annotations": "^1.7",
         "lexik/jwt-authentication-bundle": "^2.6",
         "symfony/console": "4.3.*",
         "symfony/dotenv": "4.3.*",
@@ -42,6 +43,12 @@
         "symfony/polyfill-php56": "*"
     },
     "scripts": {
+        "fixtures": [
+            "bin/console d:d:d --if-exists --force --env=test",
+            "bin/console d:d:c --env=test",
+            "bin/console d:s:u -f --env=test",
+            "bin/console d:f:l --env=test"
+        ],
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd"

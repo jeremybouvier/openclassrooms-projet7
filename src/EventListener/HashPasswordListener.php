@@ -66,6 +66,6 @@ class HashPasswordListener implements EventSubscriber
      */
     private function encodedPassword($user)
     {
-        return $this->passwordEncoder->encodePassword($user, $user->getPlainPassword());
+        return $this->passwordEncoder->encodePassword($user, $user->getPassword());
     }
 }
