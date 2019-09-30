@@ -59,5 +59,4 @@ class CustomerListener implements EventSubscriber
         $user = $token->getUser();
         return $user instanceof UserInterface ? $user : null;
     }
-
 }

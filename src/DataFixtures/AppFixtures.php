@@ -2,7 +2,6 @@
 
 namespace App\DataFixtures;
 
-
 use App\Entity\Customer;
 use App\Entity\Picture;
 use App\Entity\Product;
@@ -40,7 +39,6 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $this->loadUsers($manager);
-        //$this->loadCustomers($manager);
         $this->loadProducts($manager);
         $manager->flush();
     }
@@ -70,26 +68,9 @@ class AppFixtures extends Fixture
         }
     }
 
-    public function loadCustomers($manager)
-    {
-        foreach ($this->users as $key => $user) {
-            for ($i = 0; $i < 50; $i++) {
-                $customer = new Customer();
-                $customer->setFirstName('customer'.$i);
-                $customer->setLastName('customerLast'.$i);
-                $customer->setAddress('address of customer'.$i);
-                $customer->setZipCode(20290+$i);
-                $customer->setCity('city of customer'.$i);
-                $customer->setEmail('customer'.$i.'@gmail.com');
-                $user->addCustomer($customer);
-                $manager->persist($customer);
-            }
-        }
-    }
-
     public function loadProducts($manager)
     {
-        for ($i = 0; $i < 50; $i++)  {
+        for ($i = 0; $i < 50; $i++) {
             $product = new Product();
             $product->setName('product'.$i);
             $product->setBrand('Apple');
@@ -101,7 +82,7 @@ class AppFixtures extends Fixture
             $manager->persist($product);
         }
 
-        for ($i = 0; $i < 50; $i++)  {
+        for ($i = 0; $i < 50; $i++) {
             $product = new Product();
             $product->setName('product'.$i);
             $product->setBrand('Samsung');
@@ -112,6 +93,5 @@ class AppFixtures extends Fixture
             $product->addPicture($picture);
             $manager->persist($product);
         }
-
     }
 }
