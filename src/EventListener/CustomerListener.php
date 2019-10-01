@@ -43,7 +43,10 @@ class CustomerListener implements EventSubscriber
             return;
         }
 
-        $customer->setUser($this->getUser());
+        if ($this->getUser()) {
+            $customer->setUser($this->getUser());
+        }
+
     }
 
     /**

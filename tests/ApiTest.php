@@ -57,6 +57,7 @@ class ApiTest extends WebTestCase
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('application/hal+json; charset=utf-8', $response->headers->get('Content-Type'));
         $this->assertEquals(50, $json['totalItems']);
+        $this->assertEquals('/api/customers?page=1', $json['_links']['self']['href']);
         $this->assertEquals(20, $json['itemsPerPage']);
     }
 
@@ -154,4 +155,68 @@ class ApiTest extends WebTestCase
         $this->assertEquals(204, $response->getStatusCode());
     }
 
+    /**
+     * test recupération de la liste des produits
+     */
+    public function testRetrieveProductList()
+    {
+        $response = $this->request(
+            static::createClient(),
+            'GET',
+            '/api/products',
+            [],
+            ['Authorization' => $this->getToken(), 'content-type' => 'application/hal+json']
+        );
+
+        $json = json_decode($response->getContent(), true);
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals('application/hal+json; charset=utf-8', $response->headers->get('Content-Type'));
+        $this->assertEquals(20, $json['itemsPerPage']);
+        $this->assertEquals('/api/products?page=1', $json['_links']['self']['href']);
+        $this->assertArrayHasKey('_embedded', $json);
+    }
+
+    /**
+     * test récupération d'un produit
+     */
+    public function testRetrieveProduct()
+    {
+        $response = $this->request(
+            static::createClient(),
+            'GET',
+            '/api/products/1',
+            [],
+            ['Authorization' => $this->getToken(), 'content-type' => 'application/hal+json']
+        );
+
+        $json = json_decode($response->getContent(), true);
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals('application/hal+json; charset=utf-8', $response->headers->get('Content-Type'));
+        $this->assertArrayHasKey('_links', $json);
+        $this->assertArrayNotHasKey('totalItems', $json);
+        $this->assertArrayHasKey('name', $json);
+        $this->assertArrayHasKey('brand', $json);
+        $this->assertArrayHasKey('description', $json);
+        $this->assertArrayHasKey('price', $json);
+        $this->assertArrayHasKey('pictures', $json);
+    }
+
+    /**
+     * test récupération d'un produit après filtrage
+     */
+    public function testRetrieveFilteredProduct()
+    {
+        $response = $this->request(
+            static::createClient(),
+            'GET',
+            '/api/products?price[between]=889..999&brand=app&name=uct1',
+            [],
+            ['Authorization' => $this->getToken(), 'content-type' => 'application/hal+json']
+        );
+
+        $json = json_decode($response->getContent(), true);
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals('application/hal+json; charset=utf-8', $response->headers->get('Content-Type'));
+        $this->assertEquals(1, $json['totalItems']);
+    }
 }
