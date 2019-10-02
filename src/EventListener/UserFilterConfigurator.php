@@ -32,7 +32,6 @@ final class UserFilterConfigurator
         $filter = $this->em->getFilters()->enable('user_filter');
         $filter->setParameter('id', $user->getId());
         $filter->setAnnotationReader($this->reader);
-
     }
 
     private function getUser(): ?UserInterface

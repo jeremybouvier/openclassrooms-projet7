@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 trait RequestTrait
 {
     /**
+     * création de la requète http avec les paramètres serveur souhaités
      * @param string|array|null $content
      * @param string $method
      * @param string $uri

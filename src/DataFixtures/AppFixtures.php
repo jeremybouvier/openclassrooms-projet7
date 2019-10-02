@@ -69,7 +69,7 @@ class AppFixtures extends Fixture
     {
         $users = $this->entityManager->getRepository(User::class)->findAll();
 
-        foreach ($users as  $user) {
+        foreach ($users as $user) {
             for ($j = 0; $j < 50; $j++) {
                 $customer = new Customer();
                 $customer->setFirstName('customer'.$j);
