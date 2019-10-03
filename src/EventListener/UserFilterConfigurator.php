@@ -3,7 +3,7 @@
 
 namespace App\EventListener;
 
-use App\Entity\User;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -25,13 +25,13 @@ final class UserFilterConfigurator
     public function onKernelRequest(): void
     {
         if (!$user = $this->getUser()) {
-            $user = $this->em->find(User::class, 1);
-            //throw new \RuntimeException('There is no authenticated user.');
+            throw new \RuntimeException('There is no authenticated user.');
         }
 
         $filter = $this->em->getFilters()->enable('user_filter');
         $filter->setParameter('id', $user->getId());
         $filter->setAnnotationReader($this->reader);
+
     }
 
     private function getUser(): ?UserInterface

@@ -4,9 +4,10 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\Common\Annotations\AnnotationReader;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -19,16 +20,19 @@ class User implements UserInterface
      * @ORM\Column(type="integer")
      */
     private $id;
+
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $username;
+
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $password;
+
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Customer", mappedBy="user", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Customer", mappedBy="user", orphanRemoval=true, cascade={"persist"})
      */
     private $customers;
 
@@ -75,6 +79,8 @@ class User implements UserInterface
         $this->password = $password;
         return $this;
     }
+
+
     /**
      * @return Collection|Customer[]
      */
@@ -83,7 +89,7 @@ class User implements UserInterface
         return $this->customers;
     }
 
-    public function addCustumer(Customer $customer): self
+    public function addCustomer(Customer $customer): self
     {
         if (!$this->customers->contains($customer)) {
             $this->customers[] = $customer;

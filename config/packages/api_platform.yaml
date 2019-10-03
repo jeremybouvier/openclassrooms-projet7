@@ -8,8 +8,5 @@ api_platform:
         jsonhal:  ['application/hal+json']
 
 
-    swagger:
-        api_keys:
-            apiKey:
-                name: Authorization
-                type: header
+
+
