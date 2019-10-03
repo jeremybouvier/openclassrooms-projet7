@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 
 use App\Entity\Customer;
+use App\Entity\Picture;
 use App\Entity\Product;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -39,7 +40,7 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $this->loadUsers($manager);
-        $this->loadCustomers($manager);
+        //$this->loadCustomers($manager);
         $this->loadProducts($manager);
         $manager->flush();
     }
@@ -48,22 +49,31 @@ class AppFixtures extends Fixture
     {
         for ($i = 0; $i < 10; $i++) {
             $user = new User();
-            $user->setLoginName('user'.$i);
+            $user->setUsername('user'.$i);
             $user->setPassword('pass'.$i);
             $user->setCompany('company of user'.$i);
             $user->setAddress('address of user'.$i);
             $user->setZipCode(20290+$i);
             $user->setCity('city of user'.$i);
             $user->setPhone('00.00.00.00.0'.$i);
-            $this->users[] = $user;
+            for ($j = 0; $j < 50; $j++) {
+                $customer = new Customer();
+                $customer->setFirstName('customer'.$j);
+                $customer->setLastName('customerLast'.$j);
+                $customer->setAddress('address of customer'.$j);
+                $customer->setZipCode(20290+$j);
+                $customer->setCity('city of customer'.$j);
+                $customer->setEmail('customer'.$j.'@gmail.com');
+                $user->addCustomer($customer);
+            }
             $manager->persist($user);
         }
     }
 
     public function loadCustomers($manager)
     {
-        foreach ($this->users as $user) {
-            for ($i = 0; $i < 10; $i++) {
+        foreach ($this->users as $key => $user) {
+            for ($i = 0; $i < 50; $i++) {
                 $customer = new Customer();
                 $customer->setFirstName('customer'.$i);
                 $customer->setLastName('customerLast'.$i);
@@ -71,7 +81,7 @@ class AppFixtures extends Fixture
                 $customer->setZipCode(20290+$i);
                 $customer->setCity('city of customer'.$i);
                 $customer->setEmail('customer'.$i.'@gmail.com');
-                $customer->setUser($user);
+                $user->addCustomer($customer);
                 $manager->persist($customer);
             }
         }
@@ -79,24 +89,29 @@ class AppFixtures extends Fixture
 
     public function loadProducts($manager)
     {
-        for ($i = 0; $i < 10; $i++)  {
+        for ($i = 0; $i < 50; $i++)  {
             $product = new Product();
             $product->setName('product'.$i);
             $product->setBrand('Apple');
             $product->setDescription('description'.$i);
             $product->setprice(990+$i);
+            $picture = new Picture();
+            $picture->setPath("/path/image/product".$i.".jpg");
+            $product->addPicture($picture);
             $manager->persist($product);
         }
 
-        for ($i = 0; $i < 10; $i++)  {
+        for ($i = 0; $i < 50; $i++)  {
             $product = new Product();
             $product->setName('product'.$i);
             $product->setBrand('Samsung');
             $product->setDescription('description'.$i);
             $product->setprice(890+$i);
+            $picture = new Picture();
+            $picture->setPath("/path/image/product".$i.".jpg");
+            $product->addPicture($picture);
             $manager->persist($product);
         }
-
 
     }
 }

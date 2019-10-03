@@ -4,14 +4,15 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\Common\Annotations\AnnotationReader;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 /**
- * @ApiResource
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -19,16 +20,19 @@ class User
      * @ORM\Column(type="integer")
      */
     private $id;
+
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $LoginName;
+    private $username;
+
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $password;
+
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Customer", mappedBy="user", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Customer", mappedBy="user", orphanRemoval=true, cascade={"persist"})
      */
     private $customers;
 
@@ -65,15 +69,7 @@ class User
     {
         return $this->id;
     }
-    public function getLoginName(): ?string
-    {
-        return $this->LoginName;
-    }
-    public function setLoginName(string $LoginName): self
-    {
-        $this->LoginName = $LoginName;
-        return $this;
-    }
+
     public function getPassword(): ?string
     {
         return $this->password;
@@ -83,6 +79,8 @@ class User
         $this->password = $password;
         return $this;
     }
+
+
     /**
      * @return Collection|Customer[]
      */
@@ -90,8 +88,7 @@ class User
     {
         return $this->customers;
     }
-
-    public function addCustumer(Customer $customer): self
+    public function addCustomer(Customer $customer): self
     {
         if (!$this->customers->contains($customer)) {
             $this->customers[] = $customer;
@@ -99,7 +96,6 @@ class User
         }
         return $this;
     }
-
     public function removeCustomer(Customer $customer): self
     {
         if ($this->customers->contains($customer)) {
@@ -157,63 +153,27 @@ class User
         return $this;
     }
 
-    public function getCompany(): ?string
+    public function getUsername()
     {
-        return $this->company;
+        return $this->username;
     }
 
-    public function setCompany(string $company): self
+    public function setUsername(string $username): self
     {
-        $this->company = $company;
-
+        $this->username = $username;
         return $this;
     }
 
-    public function getAddress(): ?string
+    public function getSalt()
     {
-        return $this->address;
+        return null;
     }
 
-    public function setAddress(string $address): self
+    public function getRoles()
     {
-        $this->address = $address;
-
-        return $this;
+        return array('ROLE_USER');
     }
-
-    public function getCity(): ?string
+    public function eraseCredentials()
     {
-        return $this->city;
-    }
-
-    public function setCity(string $city): self
-    {
-        $this->city = $city;
-
-        return $this;
-    }
-
-    public function getZipCode(): ?string
-    {
-        return $this->zipCode;
-    }
-
-    public function setZipCode(string $zipCode): self
-    {
-        $this->zipCode = $zipCode;
-
-        return $this;
-    }
-
-    public function getPhone(): ?string
-    {
-        return $this->phone;
-    }
-
-    public function setPhone(string $phone): self
-    {
-        $this->phone = $phone;
-
-        return $this;
     }
 }

@@ -52,7 +52,7 @@ class Product
     private $price;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Picture", mappedBy="product", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Picture", mappedBy="product", orphanRemoval=true, cascade={"persist"})
      */
     private $pictures;
 
