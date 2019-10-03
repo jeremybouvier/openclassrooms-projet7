@@ -71,27 +71,25 @@ Modifiez le mot de passe d'authentification JWT dans le fichier .env présent à
 
 Placez vous dans le dossier Api_Bilemo et initialisez la base de donnée en faisant un :
 ```
-$ composer fixtures
+$ composer initBD
 ```
 
 ## Documentation
 
  Veuillez consulter la [documentation](/swagger_docs.json) afin de connaitre les différentes requètes utilisables dans ce projet
  
-## Tests
+## Lancement du projet
 
-Avant de commencer les tests initialiser la base de donnée :
+Placez vous dans le dossier public :
 ```
-$ composer fixtures
-```
-
-Puis lancer les tests par la commande :
-```
-$ ./vendor/bin/simple-phpunit
+$ cd public
 ```
 
->Penser à réinitialiser la base de donnée entre chaque serie de tests.
-    
+Puis lancer votre serveur php par la commande :
+```
+$ php -S localhost:8000 -ddisplay_errors=1
+```
+*Vous pouvez maintenant effectuer toutes les requètes que vous souhaitez vers l'API*
 ## Développé avec
 
 * **Symfony 4.3** 
