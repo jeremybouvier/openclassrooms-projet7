@@ -88,6 +88,7 @@ class User implements UserInterface
     {
         return $this->customers;
     }
+
     public function addCustomer(Customer $customer): self
     {
         if (!$this->customers->contains($customer)) {
@@ -96,6 +97,7 @@ class User implements UserInterface
         }
         return $this;
     }
+
     public function removeCustomer(Customer $customer): self
     {
         if ($this->customers->contains($customer)) {
