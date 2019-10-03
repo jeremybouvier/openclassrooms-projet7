@@ -1,4 +1,11 @@
 api_platform:
+
+    title: 'Bilemo'
+
+    description: 'Gestion d un catalogue de téléphone portable '
+
+    version: '1.0.0'
+
     mapping:
         paths: ['%kernel.project_dir%/src/Entity']
 
@@ -6,5 +13,16 @@ api_platform:
         json:     ['application/json']
         jsonld:   ['application/ld+json']
         jsonhal:  ['application/hal+json']
+        html:  ['text/html']
+
+    http_cache:
+        etag: true
+
+        max_age: 600
 
 
+        shared_max_age: 1200
+
+        vary: ['Accept']
+
+        public: true
