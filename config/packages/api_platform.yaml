@@ -26,3 +26,4 @@ api_platform:
         vary: ['Accept']
 
         public: true
+
