@@ -20,9 +20,9 @@ api_platform:
 
         max_age: 600
 
-
         shared_max_age: 1200
 
         vary: ['Accept']
 
         public: true
+
