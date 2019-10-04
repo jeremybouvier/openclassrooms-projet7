@@ -43,7 +43,9 @@ class CustomerListener implements EventSubscriber
             return;
         }
 
-        $customer->setUser($this->getUser());
+        if ($this->getUser()) {
+            $customer->setUser($this->getUser());
+        }
     }
 
     /**
@@ -59,5 +61,4 @@ class CustomerListener implements EventSubscriber
         $user = $token->getUser();
         return $user instanceof UserInterface ? $user : null;
     }
-
 }

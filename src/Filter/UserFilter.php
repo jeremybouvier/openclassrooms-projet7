@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Filter;
 
 use App\Annotation\UserAware;
@@ -15,7 +14,12 @@ final class UserFilter extends SQLFilter
     public function addFilterConstraint(ClassMetadata $targetEntity, $targetTableAlias): string
     {
         if (null === $this->reader) {
-            throw new \RuntimeException(sprintf('An annotation reader must be provided. Be sure to call "%s::setAnnotationReader()".', __CLASS__));
+            throw new \RuntimeException(
+                sprintf(
+                    'An annotation reader must be provided. Be sure to call "%s::setAnnotationReader()".',
+                    __CLASS__
+                )
+            );
         }
 
         // The Doctrine filter is called for any query on any entity

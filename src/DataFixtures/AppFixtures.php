@@ -2,22 +2,24 @@
 
 namespace App\DataFixtures;
 
-
 use App\Entity\Customer;
 use App\Entity\Picture;
 use App\Entity\Product;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class AppFixtures extends Fixture
 {
+
     /**
      * @var array
      */
-    private $users;
+    private $entityManager;
     /**
      * @var UserPasswordEncoderInterface
      */
@@ -27,9 +29,10 @@ class AppFixtures extends Fixture
      * AppFixtures constructor.
      * @param UserPasswordEncoderInterface $encoder
      */
-    public function __construct(UserPasswordEncoderInterface $encoder)
+    public function __construct(UserPasswordEncoderInterface $encoder, EntityManagerInterface $entityManager)
     {
         $this->encoder = $encoder;
+        $this->entityManager = $entityManager;
     }
 
      /**
@@ -40,7 +43,8 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $this->loadUsers($manager);
-        //$this->loadCustomers($manager);
+        $manager->flush();
+        $this->loadCustomers($manager);
         $this->loadProducts($manager);
         $manager->flush();
     }
@@ -56,6 +60,16 @@ class AppFixtures extends Fixture
             $user->setZipCode(20290+$i);
             $user->setCity('city of user'.$i);
             $user->setPhone('00.00.00.00.0'.$i);
+
+            $manager->persist($user);
+        }
+    }
+
+    public function loadCustomers($manager)
+    {
+        $users = $this->entityManager->getRepository(User::class)->findAll();
+
+        foreach ($users as $user) {
             for ($j = 0; $j < 50; $j++) {
                 $customer = new Customer();
                 $customer->setFirstName('customer'.$j);
@@ -69,27 +83,9 @@ class AppFixtures extends Fixture
             $manager->persist($user);
         }
     }
-
-    public function loadCustomers($manager)
-    {
-        foreach ($this->users as $key => $user) {
-            for ($i = 0; $i < 50; $i++) {
-                $customer = new Customer();
-                $customer->setFirstName('customer'.$i);
-                $customer->setLastName('customerLast'.$i);
-                $customer->setAddress('address of customer'.$i);
-                $customer->setZipCode(20290+$i);
-                $customer->setCity('city of customer'.$i);
-                $customer->setEmail('customer'.$i.'@gmail.com');
-                $user->addCustomer($customer);
-                $manager->persist($customer);
-            }
-        }
-    }
-
     public function loadProducts($manager)
     {
-        for ($i = 0; $i < 50; $i++)  {
+        for ($i = 0; $i < 50; $i++) {
             $product = new Product();
             $product->setName('product'.$i);
             $product->setBrand('Apple');
@@ -101,7 +97,7 @@ class AppFixtures extends Fixture
             $manager->persist($product);
         }
 
-        for ($i = 0; $i < 50; $i++)  {
+        for ($i = 0; $i < 50; $i++) {
             $product = new Product();
             $product->setName('product'.$i);
             $product->setBrand('Samsung');
@@ -112,6 +108,5 @@ class AppFixtures extends Fixture
             $product->addPicture($picture);
             $manager->persist($product);
         }
-
     }
 }

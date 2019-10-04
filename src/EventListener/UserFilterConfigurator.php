@@ -24,6 +24,7 @@ final class UserFilterConfigurator
 
     public function onKernelRequest(): void
     {
+
         if (!$user = $this->getUser()) {
             throw new \RuntimeException('There is no authenticated user.');
         }
@@ -31,7 +32,6 @@ final class UserFilterConfigurator
         $filter = $this->em->getFilters()->enable('user_filter');
         $filter->setParameter('id', $user->getId());
         $filter->setAnnotationReader($this->reader);
-
     }
 
     private function getUser(): ?UserInterface
