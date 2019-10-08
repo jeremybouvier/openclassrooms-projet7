@@ -83,30 +83,25 @@ class AppFixtures extends Fixture
             $manager->persist($user);
         }
     }
+    
     public function loadProducts($manager)
     {
         for ($i = 0; $i < 50; $i++) {
-            $product = new Product();
-            $product->setName('product'.$i);
-            $product->setBrand('Apple');
-            $product->setDescription('description'.$i);
-            $product->setprice(990+$i);
-            $picture = new Picture();
-            $picture->setPath("/path/image/product".$i.".jpg");
-            $product->addPicture($picture);
-            $manager->persist($product);
+            $this->setProducts($manager, $i, 'Apple', 900);
+            $this->setProducts($manager, $i, 'Samsung', 890);
         }
+    }
 
-        for ($i = 0; $i < 50; $i++) {
-            $product = new Product();
-            $product->setName('product'.$i);
-            $product->setBrand('Samsung');
-            $product->setDescription('description'.$i);
-            $product->setprice(890+$i);
-            $picture = new Picture();
-            $picture->setPath("/path/image/product".$i.".jpg");
-            $product->addPicture($picture);
-            $manager->persist($product);
-        }
+    private function setProducts($manager, $i, $brand = 'brand', $basePrice = 900)
+    {
+        $product = new Product();
+        $product->setName('product'.$i);
+        $product->setBrand($brand);
+        $product->setDescription('description'.$i);
+        $product->setprice($basePrice+($i*10));
+        $picture = new Picture();
+        $picture->setPath("/path/image/product".$i.".jpg");
+        $product->addPicture($picture);
+        $manager->persist($product);
     }
 }
