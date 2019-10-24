@@ -76,6 +76,11 @@ Placez vous dans le dossier Api_Bilemo et initialisez la base de donnée en fais
 $ composer initBD
 ```
 
+Pour initialiser la base de donnée avec un jeu de donnée préinstallé faire :
+```
+$ composer fixtures
+```
+
 ## Documentation
 
  Veuillez consulter la [documentation](/swagger_docs.json) afin de connaitre les différentes requètes utilisables dans ce projet
