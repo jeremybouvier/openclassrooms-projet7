@@ -30,6 +30,8 @@ $ cd Api_Bilemo
 Mettez a jour les dépendances composer en faisant un :
 ```
 $ composer update
+
+saisir ce token 101b13270da1e71fe325e55dfaf9bad879ede73f
 ```
 
 Modifiez les paramètres d'accès à la base de donnée en remplaçant cette ligne dans le fichier .env présent à la racine du projet :
