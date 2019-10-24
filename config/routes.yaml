@@ -1,6 +1,10 @@
 #definition de la route pour l'authentification
 api_login_check:
   path: /api/login_check
+ 
+swagger_ui:
+    path: /docs
+    controller: api_platform.swagger.action.ui
 
 
 
