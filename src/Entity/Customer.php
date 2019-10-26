@@ -89,7 +89,6 @@ class Customer
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="customers")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     * @Assert\NotBlank()
      * @Groups({"write"})
      */
     private $user;
